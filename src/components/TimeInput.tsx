@@ -4,9 +4,9 @@ import { jsx, css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTime, setUserInput } from 'redux/slices/pomodoroSlice';
 import { RootState } from 'redux/store';
-import useDidMountEffect from 'hooks/useDidMountEffect';
 
 import TextInput from './common/TextInput';
+import useDidMountEffect from 'hooks/useDidMountEffect';
 import { gray } from 'styles/palette';
 
 export default function TimeInput() {

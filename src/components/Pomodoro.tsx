@@ -2,14 +2,15 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsRunning, setMode, setTime } from 'redux/slices/pomodoroSlice';
-import { RootState } from 'redux/store';
-import { gray } from 'styles/palette';
-import { theme } from 'styles/theme';
-import { createRandomNumber } from 'util/utilFunc';
+
+import Timer from './Timer';
 import Button from './common/Button';
 import TimeInput from './TimeInput';
-import Timer from './Timer';
+import { RootState } from 'redux/store';
+import { setIsRunning, setMode, setTime } from 'redux/slices/pomodoroSlice';
+import { createRandomNumber } from 'util/utilFunc';
+import { gray } from 'styles/palette';
+import { theme } from 'styles/theme';
 
 export default function Pomodoro() {
 	const dispatch = useDispatch();

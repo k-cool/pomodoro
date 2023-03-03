@@ -5,17 +5,15 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
-import { calcMin, calcSec, createRandomNumber } from 'util/utilFunc';
-import { gray } from 'styles/palette';
 import {
 	countDownOneSec,
-	Mode,
 	setIsRunning,
 	setMode,
 	setTime,
 } from 'redux/slices/pomodoroSlice';
+import { calcMin, calcSec, createRandomNumber } from 'util/utilFunc';
+import { gray } from 'styles/palette';
 import { theme } from 'styles/theme';
-import useDidMountEffect from 'hooks/useDidMountEffect';
 
 export default function Timer() {
 	const dispatch = useDispatch();
@@ -35,9 +33,10 @@ export default function Timer() {
 		null
 	);
 
-	useDidMountEffect(() => {
+	useEffect(() => {
 		if (isRunning) {
 			if (timer) return;
+
 			setTimer(
 				setInterval(() => {
 					dispatch(countDownOneSec());
@@ -49,7 +48,7 @@ export default function Timer() {
 			clearInterval(timer);
 			setTimer(null);
 		}
-	}, [isRunning]);
+	}, [isRunning, dispatch, timer]);
 
 	useEffect(() => {
 		if (time || !isRunning) return;
@@ -70,18 +69,15 @@ export default function Timer() {
 		}
 	}, [isRunning, time, rest, work, mode, dispatch]);
 
+	const background = `conic-gradient(${
+		mode === 'WORK' ? theme.work : theme.rest
+	} ${360 * ratio}deg, ${gray[300]} ${360 * ratio}deg 360deg)`;
+
 	return (
 		<div css={TimerCss}>
 			<div css={chartCss}>
-				<div
-					css={outerCss(ratio, mode)}
-					style={{
-						background: `conic-gradient(${
-							mode === 'WORK' ? theme.work : theme.rest
-						} ${360 * ratio}deg, ${gray[300]} ${360 * ratio}deg 360deg)`,
-					}}
-				></div>
-				<div css={holeCss}></div>
+				<div css={outerCss} style={{ background }}></div>
+				<div css={holeCss} />
 				<div css={timeCss}>{`${calcMin(time)}:${calcSec(time)}`}</div>
 			</div>
 		</div>
@@ -96,13 +92,9 @@ const chartCss = css`
 	height: 300px;
 `;
 
-const outerCss = (ratio: number, mode: Mode) => css`
+const outerCss = css`
 	width: 100%;
 	height: 100%;
-	background: conic-gradient(
-		${mode === 'WORK' ? theme.work : theme.rest} ${360 * ratio}deg,
-		${gray[300]} ${360 * ratio}deg 360deg
-	);
 	border-radius: 50%;
 	transition: all 1s ease;
 `;
