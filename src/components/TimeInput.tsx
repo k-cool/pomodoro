@@ -7,8 +7,7 @@ import { RootState } from 'redux/store';
 import useDidMountEffect from 'hooks/useDidMountEffect';
 
 import TextInput from './common/TextInput';
-
-interface TimeInputProps {}
+import { gray } from 'styles/palette';
 
 export default function TimeInput() {
 	const dispatch = useDispatch();
@@ -19,6 +18,7 @@ export default function TimeInput() {
 
 	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
+		if (isNaN(+value)) return;
 		if (value.length > 2 || +value > 60) return alert('최대 60분까지 입니다!');
 		dispatch(setUserInput({ ...userInput, [name]: +value }));
 	};
@@ -28,13 +28,13 @@ export default function TimeInput() {
 	}, [work, dispatch]);
 
 	return (
-		<div css={TimeInputCss}>
+		<div css={TimeInputCss(isRunning)}>
 			<span>1주기</span>
 			<TextInput
 				name="work"
 				value={work}
 				width="50px"
-				disabled={!isRunning}
+				disabled={isRunning}
 				onChange={handleChangeInput}
 			/>
 			<span>분</span>
@@ -43,7 +43,7 @@ export default function TimeInput() {
 				name="rest"
 				value={rest}
 				width="50px"
-				disabled={!isRunning}
+				disabled={isRunning}
 				onChange={handleChangeInput}
 			/>
 			<span>분</span>
@@ -52,8 +52,10 @@ export default function TimeInput() {
 	);
 }
 
-const TimeInputCss = css`
+const TimeInputCss = (disabled: boolean) => css`
 	display: flex;
 	align-items: center;
 	gap: 10px;
+
+	color: ${disabled ? gray[300] : ''};
 `;

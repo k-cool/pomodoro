@@ -37,10 +37,14 @@ const pomodoroSlice = createSlice({
 		setMode: (state, action: PayloadAction<Mode>) => {
 			state.mode = action.payload;
 		},
+
+		countDownOneSec: state => {
+			state.time -= 1;
+		},
 	},
 });
 
-export const { setUserInput, setTime, setIsRunning, setMode } =
+export const { setUserInput, setTime, setIsRunning, setMode, countDownOneSec } =
 	pomodoroSlice.actions;
 
 export default pomodoroSlice.reducer;

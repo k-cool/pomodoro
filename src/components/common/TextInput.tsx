@@ -24,7 +24,7 @@ export default function TextInput({
 }: TextInputProps) {
 	return (
 		<input
-			css={TextInputCss(width, height)}
+			css={TextInputCss(width, height, disabled)}
 			type="text"
 			name={name}
 			value={value}
@@ -35,12 +35,13 @@ export default function TextInput({
 	);
 }
 
-const TextInputCss = (width: string, height: string) => css`
+const TextInputCss = (width: string, height: string, disabled: boolean) => css`
 	width: ${width};
 	height: ${height};
 	padding: 10px;
 	outline: none;
 	border: 1px solid ${gray[300]};
 	border-radius: 8px;
+	color: ${disabled ? gray[300] : ''};
 	font-size: 20px;
 `;
