@@ -1,4 +1,7 @@
 import { Global } from '@emotion/react';
+import Pomodoro from 'components/Pomodoro';
+import { Provider } from 'react-redux';
+import store from 'redux/store';
 import global from 'styles/global';
 import reset from 'styles/reset';
 
@@ -7,7 +10,9 @@ function App() {
 		<>
 			<Global styles={reset} />
 			<Global styles={global} />
-			test 안녕하세요
+			<Provider store={store}>
+				<Pomodoro />
+			</Provider>
 		</>
 	);
 }
